@@ -1,11 +1,13 @@
 .App {
   text-align: center;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  overflow-y: scroll;
+  margin: 5% auto;
 }
 
 .books-container {
-  height:90vh;
+  width: 80%;
+  margin: 0 auto;
+  height:70vh;
   border: solid 1px black;
   overflow-y: auto;
 }
