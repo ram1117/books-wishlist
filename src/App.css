@@ -7,7 +7,7 @@
 .books-container {
   width: 80%;
   margin: 0 auto;
-  height:70vh;
+  height: 70vh;
   border: solid 1px black;
   overflow-y: auto;
 }

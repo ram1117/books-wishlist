@@ -9,7 +9,7 @@
   align-items: center;
 }
 
-.popup-wrapper{
+.popup-wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -19,7 +19,7 @@
   background-color: rgba(128, 128, 128, 0.3);
 }
 
-.popup{
+.popup {
   margin: 10% auto;
   padding: 5%;
   width: 80%;
@@ -31,4 +31,4 @@
 .column1 {
   font-size: 2em;
   color: blue;
-} 
+}
