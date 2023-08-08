@@ -1,7 +1,8 @@
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import './BooksContainer.css';
 import Modal from './Modal';
+import React from 'react';
 
 const BASE_URL = 'https://gutendex.com//books?search=';
 const BooksContainer = ({ input }) => {
@@ -12,12 +13,18 @@ const BooksContainer = ({ input }) => {
   BooksContainer.defaultProps = { input: '' };
   BooksContainer.propTypes = { input: PropTypes.string };
 
+  interface Book {
+    id: number;
+    title: string;
+    authors: string;
+  }
+
   const fetchFromApi = async (inputVal) => {
     if (input !== '') {
       const response = await fetch(new URL(BASE_URL + inputVal));
       const books = await response.json();
-      const newArr = [];
-      books.results.forEach((element) => {
+      const newArr: Book[] = [];
+      books.results.forEach((element: Book) => {
         const { id, title, authors } = element;
         newArr.push({ id, title, authors });
       });
@@ -29,9 +36,12 @@ const BooksContainer = ({ input }) => {
     fetchFromApi(input);
   }, [input]);
 
-  const showModal = (e) => {
+  const showModal = (e: Event) => {
+    const element = e.target as HTMLElement;
     setToShowModal(true);
-    setbId(e.target.id);
+    if (element) {
+      setbId(element.id);
+    }
   };
 
   return (
@@ -42,7 +52,9 @@ const BooksContainer = ({ input }) => {
           <div className="book-tile" key={book.id}>
             <div className="book-details">
               {book.title}
-              <button id={book.id} onClick={showModal} type="button">details..</button>
+              <button id={book.id} onClick={showModal} type="button">
+                details..
+              </button>
             </div>
             <hr />
           </div>
