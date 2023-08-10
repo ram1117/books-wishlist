@@ -1,11 +1,12 @@
-import { PropTypes } from 'prop-types';
 import React from 'react';
 import { useRef } from 'react';
 
-const SearchField = ({ searchFunc }) => {
-  SearchField.defaultProps = { searchFunc: () => {} };
-  SearchField.propTypes = { searchFunc: PropTypes.func };
-  const titleRef = useRef(null);
+type SearchFieldProp = {
+  searchFunc: Function;
+};
+
+const SearchField = ({ searchFunc }: SearchFieldProp) => {
+  const titleRef = useRef<HTMLInputElement>(null);
   const handleOnClick = () => {
     if (titleRef.current) {
       searchFunc(titleRef.current.value);
