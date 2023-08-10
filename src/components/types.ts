@@ -1,9 +1,9 @@
 export type BookData = {
   id: number;
   title: string;
-  formats?: string[];
+  formats: string[];
   authors: Author[];
-  subjects?: string[];
+  subjects: string[];
 }
 
 type Author = {

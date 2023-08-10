@@ -17,14 +17,14 @@ const BooksContainer = ({
   const [toShowModal, setToShowModal] = useState(false);
   const [bId, setbId] = useState('');
 
-  const fetchFromApi = async (inputVal) => {
+  const fetchFromApi = async (inputVal: string) => {
     if (input !== '') {
       const response = await fetch(new URL(BASE_URL + inputVal));
       const books = await response.json();
       const newArr: BookData[] = [];
       books.results.forEach((element: BookData) => {
-        const { id, title, authors } = element;
-        newArr.push({ id, title, authors });
+        const { id, title, authors, formats, subjects } = element;
+        newArr.push({ id, title, authors, formats, subjects });
       });
       setBooksData(newArr);
     }
