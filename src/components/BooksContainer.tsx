@@ -1,25 +1,30 @@
-import { PropTypes } from 'prop-types';
 import { useEffect, useState } from 'react';
 import './BooksContainer.css';
 import Modal from './Modal';
+import React from 'react';
+import { BookData } from './types';
+
+type BooksContainerProp = {
+  input: string;
+};
+const defaultProps = { input: '' };
 
 const BASE_URL = 'https://gutendex.com//books?search=';
-const BooksContainer = ({ input }) => {
-  const [booksData, setBooksData] = useState([]);
+const BooksContainer = ({
+  input,
+}: BooksContainerProp & typeof defaultProps) => {
+  const [booksData, setBooksData] = useState<BookData[]>([]);
   const [toShowModal, setToShowModal] = useState(false);
   const [bId, setbId] = useState('');
 
-  BooksContainer.defaultProps = { input: '' };
-  BooksContainer.propTypes = { input: PropTypes.string };
-
-  const fetchFromApi = async (inputVal) => {
+  const fetchFromApi = async (inputVal: string) => {
     if (input !== '') {
       const response = await fetch(new URL(BASE_URL + inputVal));
       const books = await response.json();
-      const newArr = [];
-      books.results.forEach((element) => {
-        const { id, title, authors } = element;
-        newArr.push({ id, title, authors });
+      const newArr: BookData[] = [];
+      books.results.forEach((element: BookData) => {
+        const { id, title, authors, formats, subjects } = element;
+        newArr.push({ id, title, authors, formats, subjects });
       });
       setBooksData(newArr);
     }
@@ -29,9 +34,12 @@ const BooksContainer = ({ input }) => {
     fetchFromApi(input);
   }, [input]);
 
-  const showModal = (e) => {
+  const showModal = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const element = e.target as HTMLElement;
     setToShowModal(true);
-    setbId(e.target.id);
+    if (element) {
+      setbId(element.id);
+    }
   };
 
   return (
@@ -42,7 +50,9 @@ const BooksContainer = ({ input }) => {
           <div className="book-tile" key={book.id}>
             <div className="book-details">
               {book.title}
-              <button id={book.id} onClick={showModal} type="button">details..</button>
+              <button id={`${book.id}`} onClick={showModal} type="button">
+                details..
+              </button>
             </div>
             <hr />
           </div>
