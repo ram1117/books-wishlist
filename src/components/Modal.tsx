@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 import { useEffect, useState } from 'react';
+import { BookData } from './types';
 
 const BOOK_URL = 'https://gutendex.com//books/';
 
 const defaultProps = {
-  bookId: '',
+  bookId: '0',
   funcModal: null,
 };
 
-interface ModalProp {
+type ModalProp = {
   bookId: string;
   funcModal: Function;
 };
 
 const Modal = ({ bookId, funcModal }: ModalProp) => {
-  const [bookData, setBookData] = useState([]);
+  const [bookData, setBookData] = useState<BookData | null>(null);
   const fetchBookDetails = async (id: string) => {
     if (id !== '') {
       const response = await fetch(new URL(BOOK_URL + id));
@@ -31,7 +31,7 @@ const Modal = ({ bookId, funcModal }: ModalProp) => {
     funcModal(false);
   };
 
-  if (bookData.length !== 0) {
+  if (bookData) {
     return (
       <>
         <div className="popup-wrapper">
@@ -47,7 +47,7 @@ const Modal = ({ bookId, funcModal }: ModalProp) => {
               <p className="column1">Author</p>
               <div className="column2">
                 {bookData.authors.map((author) => (
-                  <p key={author}>{author.name}</p>
+                  <p key={author.name}>{author.name}</p>
                 ))}
               </div>
             </div>
@@ -72,7 +72,7 @@ const Modal = ({ bookId, funcModal }: ModalProp) => {
     <>
       <div className="popup-wrapper">
         <div className="popup">
-          <h1>{bookData.title}</h1>
+          <h1>{bookData}</h1>
           <button type="button" onClick={onHandleClick}>
             Close
           </button>
@@ -82,5 +82,4 @@ const Modal = ({ bookId, funcModal }: ModalProp) => {
   );
 };
 
-Modal.defaultProps = defaultProps;
 export default Modal;

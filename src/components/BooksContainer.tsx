@@ -3,28 +3,27 @@ import { useEffect, useState } from 'react';
 import './BooksContainer.css';
 import Modal from './Modal';
 import React from 'react';
+import { BookData } from './types';
+
+type BooksContainerProp = {
+  input: '';
+};
+const defaultProps = { input: '' };
 
 const BASE_URL = 'https://gutendex.com//books?search=';
-const BooksContainer = ({ input }) => {
+const BooksContainer = ({
+  input,
+}: BooksContainerProp & typeof defaultProps) => {
   const [booksData, setBooksData] = useState([]);
   const [toShowModal, setToShowModal] = useState(false);
   const [bId, setbId] = useState('');
-
-  BooksContainer.defaultProps = { input: '' };
-  BooksContainer.propTypes = { input: PropTypes.string };
-
-  interface Book {
-    id: number;
-    title: string;
-    authors: string;
-  }
-
+  
   const fetchFromApi = async (inputVal) => {
     if (input !== '') {
       const response = await fetch(new URL(BASE_URL + inputVal));
       const books = await response.json();
-      const newArr: Book[] = [];
-      books.results.forEach((element: Book) => {
+      const newArr: BookData[] = [];
+      books.results.forEach((element: BookData) => {
         const { id, title, authors } = element;
         newArr.push({ id, title, authors });
       });
