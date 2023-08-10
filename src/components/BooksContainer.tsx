@@ -5,7 +5,7 @@ import React from 'react';
 import { BookData } from './types';
 
 type BooksContainerProp = {
-  input: '';
+  input: string;
 };
 const defaultProps = { input: '' };
 
